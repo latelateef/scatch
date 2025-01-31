@@ -5,6 +5,7 @@ const userModel = require("../models/user-model");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const { generateToken } = require("../utils/generateToken");
+const ownerModel = require("../models/owner-model");
 router.use(cookieParser());
 
 module.exports.registerUser = async function (req, res) {
@@ -75,7 +76,9 @@ module.exports.registerOwner = async (req, res) => {
     if (owners.length > 0) {
       return res.status(500).send("Owner already exists");
     }
-    const { fullName, email, password } = req.body;
+    const fullName = "Admin"
+    const email = "admin@mail.com"
+    const password = "123"
     bcrypt.genSalt(10, async (err, salt) => {
       if (err) {
         return res.status(500).send("Internal Server Error");
@@ -89,7 +92,7 @@ module.exports.registerOwner = async (req, res) => {
           email,
           password: hash,
         });
-        res.status(201).send(createdOwner);
+        res.redirect("/owners/login");
       });
     });
   } catch (error) {
@@ -101,7 +104,8 @@ module.exports.registerOwner = async (req, res) => {
 module.exports.loginOwner = async function (req, res) {
   try {
     const { email, password } = req.body;
-    const owner = await owner.findOne({ email });
+    const owner = await ownerModel.findOne({ email });
+    console.log(owner);
     if (!owner) {
       req.flash("error", "Invalid Credentials");
       return res.redirect("/owners/login");

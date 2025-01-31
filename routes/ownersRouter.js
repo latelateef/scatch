@@ -12,7 +12,7 @@ router.get("/", (req, res) => {
 });
 
 if(process.env.NODE_ENV === "development"){
-    router.post("/create-owner", registerOwner);
+    router.get("/create-owner", registerOwner);
 }
 
 router.get("/login", (req, res) => {
@@ -27,7 +27,8 @@ router.get("/admin", async (req, res) => {
     try {
         const success = req.flash("success");
         const products = await productModel.find();
-        res.render("admin", {success, products});
+        const admin = true;
+        res.render("admin", {success, products, admin});
     } catch (error) {
         req.flash("error", "Internal Server Error");
         res.redirect("/");
@@ -36,7 +37,8 @@ router.get("/admin", async (req, res) => {
 
 router.get("/create-products", async (req, res) => {
     const error = req.flash("error");
-    res.render("createproducts", {error});
+    const admin = true;
+    res.render("createproducts", {error, admin});
 });
 
 router.get("/delete-all-products", async (req, res) => {
