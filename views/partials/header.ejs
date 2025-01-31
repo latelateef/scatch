@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="font-['helvetica_now_display']">
+    <% const isLoggedIn = typeof loggedIn === "undefined" ? true : false %>
+    <% const isAdmin = typeof admin === "undefined" ? false : true %>
+    <% if(isAdmin){ %>
+        <nav class="w-full flex justify-between items-center py-5 px-20 h-20 fixed top-0 left-0">
+            <h1 class="text-3xl tracking-tighter">Scatch</h1>
+            <a href="/" class="text-xl">User Login</a>
+        </nav>
+        <hr class="border border-zinc-600 fixed top-20 w-full">
+    <% } else if(isLoggedIn){ %>
+        <nav class="flex justify-between items-center py-5 px-20 h-20">
+            <h1 class="text-3xl tracking-tighter">Shop</h1>
+            <div class="flex gap-20 tracking-tighter">
+                <div class="flex gap-10">
+                    <a href="/shop">Home</a>
+                    <a href="/users/cart">Cart</a>
+                </div>
+                <div class="flex gap-10">
+                    <a href="">My Account</a>
+                    <a href="/logout">Logout</a>
+                </div>
+            </div>
+        </nav>
+        <hr class="border border-zinc-600">
+        <% } else{ %>
+            <nav class="w-full flex justify-between items-center py-5 px-20 h-20 fixed top-0 left-0">
+                <h1 class="text-3xl tracking-tighter">Scatch</h1>
+                <a href="/owners/login" class="text-xl">Admin Login</a>
+            </nav>
+            <hr class="border border-zinc-600 fixed top-20 w-full">
+       <% } %>
